@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Projects — ARCHITECT.IO')
+@section('title', 'Projects — KIAN BECERA')
 
 @section('content')
 

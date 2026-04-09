@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $project['title'] . ' — ARCHITECT.IO')
+@section('title', $project['title'] . ' — KIAN BECERA')
 
 @section('content')
 

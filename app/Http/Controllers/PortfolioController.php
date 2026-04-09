@@ -7,15 +7,20 @@ use Illuminate\Http\Request;
 class PortfolioController extends Controller
 {
     private array $config = [
-        'name'     => 'Alex Morgan',
-        'role'     => 'Full Stack Engineer',
-        'tagline'  => 'Architecting high-performance digital systems that bridge the gap between complex logic and intuitive user experiences.',
-        'email'    => 'alex@architect.io',
-        'location' => 'Austin, TX',
-        'github'   => 'https://github.com/alexmorgan',
-        'linkedin' => 'https://linkedin.com/in/alexmorgan',
-        'twitter'  => 'https://twitter.com/alexmorgan',
+        'name'     => 'KIAN BECERA',
+        'role'     => 'Software Engineer',
+        'tagline'  => 'Bridging the Gap Between Design and Technical Execution.',
+        'email'    => 'becera.kian@gmail.com',
+        'location' => 'Bacolod City, Negros Occidental, Philippines',
+        'github'   => 'https://github.com/Kian-Becera',
+        'linkedin' => 'https://www.linkedin.com/in/kian-becera-377926278?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+        'twitter'  => 'https://x.com/kyaa_nnn',
         'available'=> true,
+
+        // ── Static assets (drop files into public/ and update the filename) ──
+        'avatar'   => 'images/avatar/profile.jpg',
+        'resume'   => 'files/resume/Becera_Kian Resume.pdf',             // e.g. 'files/resume/kian-becera-cv.pdf'
+        'demo_video' => null,           // e.g. 'videos/portfolio-demo.mp4'
     ];
 
     private array $projects = [
@@ -124,18 +129,132 @@ class PortfolioController extends Controller
         ],
     ];
 
-    private array $arsenal = [
-        'Frontend' => [
-            'primary'   => ['React / Next.js', 'Vue.js / Nuxt', 'TypeScript'],
-            'secondary' => ['Alpine.js', 'Tailwind CSS', 'Three.js'],
+    private array $techStack = [
+        ['name' => 'WordPress',             'icon' => 'fab fa-wordpress',   'tags' => ['Elementor', 'WPBakery', 'ACF'],          'color' => '#21759b'],
+        ['name' => 'React & Ecosystem',     'icon' => 'fab fa-react',       'tags' => ['Redux', 'React Query'],                  'color' => '#61dafb'],
+        ['name' => 'Node.js',               'icon' => 'fab fa-node-js',     'tags' => ['Express', 'Fastify', 'tRPC'],            'color' => '#68a063'],
+        ['name' => 'Laravel',               'icon' => 'fab fa-laravel',     'tags' => ['Blade', 'Herd', 'Sail'],                 'color' => '#ff2d20'],
+        ['name' => 'UI / UX',               'icon' => 'fas fa-pen-ruler',   'tags' => ['Figma', 'Adobe XD', 'Stitch'],           'color' => '#a259ff'],
+        ['name' => 'HTML5 / CSS3 / JS',     'icon' => 'fab fa-html5',       'tags' => ['CSS3', 'SCSS', 'Tailwind'],        'color' => '#e34f26'],
+        ['name' => 'Dart & Flutter',        'icon' => 'fas fa-mobile-screen','tags' => ['Flutter', 'Dart', 'FlutterFlow'],       'color' => '#54c5f8'],
+        ['name' => 'Google Ecosystem',      'icon' => 'fab fa-google',      'tags' => ['Apps Script', 'Stitch', 'AI Studio'],    'color' => '#4285f4'],
+        ['name' => 'Database',              'icon' => 'fas fa-database',    'tags' => ['SQLite', 'MySQL', 'SQL'],                'color' => '#00758f'],
+        ['name' => 'Appwrite',              'icon' => 'fas fa-server',      'tags' => ['Auth', 'Functions', 'Storage'],          'color' => '#fd366e'],
+        ['name' => 'AI Tools & Automation', 'icon' => 'fas fa-robot',       'tags' => ['DifyAI', 'n8n', 'Automation'],           'color' => '#7c3aed'],
+        ['name' => 'Git & GitHub',          'icon' => 'fab fa-github',      'tags' => ['Git', 'GitHub Actions', 'CI/CD'],        'color' => '#f05032'],
+        ['name' => 'Tools',                 'icon' => 'fas fa-screwdriver-wrench', 'tags' => ['Docker', 'XAMPP', 'Laragon'],       'color' => '#f59e0b'],
+    ];
+
+    private array $certificates = [
+        [
+            'image'  => 'images/certificates/blastik.jpeg',
+            'title'  => 'Blastik Workshop for PSITS Organization',
+            'issuer' => 'Peacepond - Binalbagan, Negros Occidental',
+            'year'   => '2020',
         ],
-        'Backend' => [
-            'primary'   => ['Laravel / PHP', 'Node.js / Express', 'Go'],
-            'secondary' => ['PostgreSQL', 'Redis', 'GraphQL'],
+        [
+            'image'  => 'images/certificates/dict.jpeg',
+            'title'  => 'Startup Basiqs+',
+            'issuer' => 'Department of Information and Communications Technology (DICT) - Philippines',
+            'year'   => '2021',
         ],
-        'Tools' => [
-            'primary'   => ['Docker / K8s', 'AWS / GCP', 'Terraform'],
-            'secondary' => ['GitHub Actions', 'Datadog', 'Linear'],
+        [
+            'image'  => 'images/certificates/glitch.png',
+            'title'  => 'PUPSJ GLITCH Cybersecurity Webinar ',
+            'issuer' => 'Polythechnic University of the Philippines - San Juan Campus',
+            'year'   => '2022',
+        ],
+        [
+            'image'  => null,
+            'title'  => 'Synology Virtual Solution Day 2022',
+            'issuer' => 'Synology',
+            'year'   => '2022',
+        ],
+        [
+            'image'  => null,
+            'title'  => 'Financial Management Services Division Policies and Procedures',
+            'issuer' => 'Finance Office - CHMSU Talisay Campus',
+            'year'   => '2023',
+        ],
+        [
+            'image'  => 'images/certificates/odsa.png',
+            'title'  => 'OPSWAT ACADEMY CERTIFICATIONS',
+            'issuer' => 'OPSWAT',
+            'year'   => '2023',
+        ],
+        [
+            'image'  => 'images/certificates/lasalle.png',
+            'title'  => 'USLS ISG Career Talk 2023 ',
+            'issuer' => 'University of St. La Salle Bacolod Campus',
+            'year'   => '2023',
+        ],
+        [
+            'image'  => 'images/certificates/devdesign.png',
+            'title'  => 'DevSign Philippines: Introduction to Basic Python ',
+            'issuer' => 'DevSign Philippines',
+            'year'   => '2024',
+        ],
+        [
+            'image'  => 'images/certificates/datascience.png',
+            'title'  => 'DICT-ITU DTC Initiative through the Cisco Networking Academy program: Introduction to Data Science',
+            'issuer' => 'Department of Information and Communications Technology (DICT) - Philippines',
+            'year'   => '2025',
+        ],
+        [
+            'image'  => null,
+           'title'  => 'DICT-ITU DTC Initiative through the Cisco Networking Academy program: Introduction to Cybersecurity',
+            'issuer' => 'Department of Information and Communications Technology (DICT) - Philippines',
+            'year'   => '2025',
+        ],
+    ];
+
+    private array $education = [
+        [
+            'degree'  => 'Elementary Education',
+            'school'  => 'Patlagan Elementary School',
+            'period'  => '2006 – 2013',
+            'desc'    => 'First Honarable Mention',
+        ],
+        [
+            'degree'  => 'High School - Senior High School (GAS Track)',
+            'school'  => 'Manapla National High School ',
+            'period'  => '2014 – 2019',
+            'desc'    => 'With Honors, Governor’s Gold Medal Awardee ',
+        ],
+        [
+            'degree'  => 'Bachelor of Science in Information Systems',
+            'school'  => 'Carlos Hilado Memorial State University (CHMSU) - Talisay Campus',
+            'period'  => '2019 – 2023',
+            'desc'    => 'Completed a full-stack information systems degree covering software development, database administration, systems analysis, and network fundamentals.',
+        ],
+        [
+            'degree'  => 'Masters in Information Technology',
+            'school'  => 'State University of Northern Negros (SUNN)',
+            'period'  => '2025 – Ongoing',
+            'desc'    => 'Graduate-level study focused on advanced software engineering, research methodologies, and emerging technologies in information systems.',
+        ],
+    ];
+
+    private array $leadership = [
+        [
+            'org'   => 'Philippine Society of Information Technology Students (PSITS)',
+            'role'  => 'Board of Director ',
+            'years' => '2019 – 2021',
+        ],
+        [
+            'org'   => 'Philippine Society of Information Technology Students (PSITS)',
+            'role'  => 'Vice President-External',
+            'years' => '2021 – 2022',
+        ],
+        [
+            'org'   => 'University Student Government (U.S.G), CHMSU ',
+            'role'  => 'CCS Senator',
+            'years' => '2022 – 2023',
+        ],
+        [
+            'org'   => 'Federation Student Government (F.S.G), CHMSU ',
+            'role'  => 'Board Member',
+            'years' => '2022 – 2023',
         ],
     ];
 
@@ -146,11 +265,7 @@ class PortfolioController extends Controller
         return view('portfolio.home', [
             ...$this->config,
             'featured'   => array_slice($this->projects, 0, 2),
-            'techStack'  => [
-                ['name' => 'React & Ecosystem', 'icon' => 'fab fa-react', 'tags' => ['Redux', 'Next.js', 'React Query'], 'color' => '#61dafb'],
-                ['name' => 'Node.js',            'icon' => 'fab fa-node-js', 'tags' => ['Express', 'Fastify', 'tRPC'],    'color' => '#68a063'],
-                ['name' => 'TypeScript',          'icon' => 'fas fa-code',   'tags' => ['Zod', 'Prisma', 'tRPC'],         'color' => '#3178c6'],
-            ],
+            'techStack'  => $this->techStack,
         ]);
     }
 
@@ -177,8 +292,19 @@ class PortfolioController extends Controller
     {
         return view('portfolio.about', [
             ...$this->config,
+            'techStack'    => $this->techStack,
+            'education'    => $this->education,
+            'certificates' => $this->certificates,
+            'leadership'   => $this->leadership,
+        ]);
+    }
+
+    public function experience()
+    {
+        return view('portfolio.experience', [
+            ...$this->config,
             'experience' => $this->experience,
-            'arsenal'    => $this->arsenal,
+            'arsenal'    => $this->techStack,
         ]);
     }
 
@@ -200,5 +326,16 @@ class PortfolioController extends Controller
 
         return redirect()->route('contact')
             ->with('success', 'Transmission received. I\'ll respond within 24 hours.');
+    }
+
+    public function downloadResume()
+    {
+        $path = public_path($this->config['resume'] ?? 'files/resume/.gitkeep');
+
+        if (! file_exists($path) || str_ends_with($path, '.gitkeep')) {
+            abort(404, 'Resume not yet uploaded.');
+        }
+
+        return response()->download($path, 'Kian-Becera-Resume.pdf');
     }
 }

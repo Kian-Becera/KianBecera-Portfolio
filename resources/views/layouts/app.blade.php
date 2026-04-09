@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', ($name ?? 'Portfolio') . ' — ARCHITECT.IO')</title>
+    <title>@yield('title', ($name ?? 'Portfolio') . ' — KIAN BECERA')</title>
 
     {{-- ① Prevent FOUC: run BEFORE any CSS or JS loads --}}
     <script>
@@ -63,6 +63,28 @@
 
         /* ─── Accent text-shadow (Tailwind has no text-shadow) */
         .glow-accent { text-shadow: 0 0 40px rgba(0,229,204,.4); }
+
+        /* ─── Resume modal gate gradient (dark / light aware) ── */
+        :root                { --gate-bg: rgba(255,255,255,0);   --gate-solid: #ffffff; }
+        :root.dark           { --gate-bg: rgba(13,21,38,0);      --gate-solid: #0d1526; }
+
+        /* ─── Hide scrollbars visually while keeping scroll function ── */
+        .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* ─── Scroll-reveal: initial hidden state set by JS ── */
+        .card-lift { will-change: opacity, transform; }
+
+        /* ─── Ticker / marquee (train-station scroll) ── */
+        @keyframes ticker {
+            0%   { transform: translateX(110%); }
+            100% { transform: translateX(-110%); }
+        }
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 14s linear infinite;
+        }
 
         /* ─── All remaining components use @apply ─────────── */
 
@@ -157,27 +179,27 @@
                       tracking-widest uppercase text-accent shrink-0">
                 <span class="w-5 h-5 border border-accent/70 rounded-sm
                              flex items-center justify-center text-[9px] font-bold">
-                    A
+                    K
                 </span>
-                ARCHITECT.IO
+                KIAN.BECERA
             </a>
 
             {{-- Desktop nav links --}}
             <ul class="hidden md:flex items-center gap-7 text-xs font-medium tracking-widest uppercase">
                 @foreach([
-                    'Projects'   => 'projects',
-                    'Experience' => 'about',
-                    'About'      => 'about',
-                    'Contact'    => 'contact',
-                ] as $label => $routeName)
+                    ['label' => 'Projects',   'href' => route('projects'),                    'active' => 'projects'],
+                    ['label' => 'Experience', 'href' => route('experience'),                   'active' => 'experience'],
+                    ['label' => 'About',      'href' => route('about'),                        'active' => 'about'],
+                    ['label' => 'Contact',    'href' => route('contact'),                      'active' => 'contact'],
+                ] as $link)
                     <li>
-                        <a href="{{ route($routeName) }}"
+                        <a href="{{ $link['href'] }}"
                            class="transition-colors duration-200
-                                  {{ request()->routeIs($routeName)
+                                  {{ $link['active'] && request()->routeIs($link['active'])
                                      ? 'text-accent'
                                      : 'dark:text-slate-400 text-slate-500
                                         hover:dark:text-white hover:text-slate-900' }}">
-                            {{ $label }}
+                            {{ $link['label'] }}
                         </a>
                     </li>
                 @endforeach
@@ -246,16 +268,19 @@
                     border-t dark:border-dark-border border-slate-200
                     px-6 py-4 space-y-1">
             @foreach([
-                'Projects'   => 'projects',
-                'About'      => 'about',
-                'Experience' => 'about',
-                'Contact'    => 'contact',
-            ] as $label => $routeName)
-                <a href="{{ route($routeName) }}" @click="open = false"
+                ['label' => 'Projects',   'href' => route('projects'),                   'active' => 'projects'],
+                ['label' => 'Experience', 'href' => route('about') . '#work-history',     'active' => null],
+                ['label' => 'About',      'href' => route('about'),                       'active' => 'about'],
+                ['label' => 'Contact',    'href' => route('contact'),                     'active' => 'contact'],
+            ] as $link)
+                <a href="{{ $link['href'] }}" @click="open = false"
                    class="flex items-center gap-2 text-xs uppercase tracking-widest
                           py-2.5 border-b dark:border-dark-border border-slate-100
-                          dark:text-slate-400 text-slate-600 hover:text-accent transition-colors">
-                    {{ $label }}
+                          transition-colors
+                          {{ $link['active'] && request()->routeIs($link['active'])
+                             ? 'text-accent'
+                             : 'dark:text-slate-400 text-slate-600 hover:text-accent' }}">
+                    {{ $link['label'] }}
                 </a>
             @endforeach
             <a href="{{ route('contact') }}"
@@ -293,11 +318,13 @@
         <div class="max-w-7xl mx-auto px-6
                     flex flex-col md:flex-row items-center justify-between gap-4">
             <span class="font-mono text-xs text-accent tracking-widest uppercase">
-                ARCHITECT.IO
+                KIAN.BECERA
             </span>
             <p class="text-xs dark:text-dark-muted text-slate-400">
                 &copy; {{ date('Y') }} {{ $name ?? 'Alex Morgan' }}
-                — Built with
+                — Created in
+                <span class="text-[#fd366e]">Stitch. </span>
+                Built with
                 <span class="text-accent">Laravel</span> &amp;
                 <span class="text-accent">Tailwind CSS</span>
             </p>
@@ -319,5 +346,28 @@
     </footer>
 
     @stack('scripts')
+
+    <script>
+        (function () {
+            var ticking = false;
+            function update() {
+                var wh = window.innerHeight;
+                document.querySelectorAll('.card-lift').forEach(function (el) {
+                    var rect = el.getBoundingClientRect();
+                    var start = wh * 0.95;
+                    var end   = wh * 0.45;
+                    var progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
+                    el.style.opacity   = progress;
+                    el.style.transform = 'translateY(' + ((1 - progress) * 52) + 'px)';
+                });
+                ticking = false;
+            }
+            function onScroll() {
+                if (!ticking) { requestAnimationFrame(update); ticking = true; }
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            document.addEventListener('DOMContentLoaded', update);
+        })();
+    </script>
 </body>
 </html>

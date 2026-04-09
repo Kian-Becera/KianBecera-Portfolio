@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $name . ' — Full Stack Engineer')
+@section('title', $name . ' — Software Engineer')
 
 @section('content')
 
@@ -34,11 +34,11 @@
 
                 {{-- Headline --}}
                 <h1 class="font-bold leading-[1.05] dark:text-white text-slate-900 mb-6">
-                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">ARCHITECTING</span>
-                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">THE</span>
+                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">CODE</span>
+                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">THAT</span>
                     <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight italic
-                                 text-accent glow-accent">DIGITAL</span>
-                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">FRONTIER.</span>
+                                 text-accent glow-accent">DRIVES</span>
+                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">RESULTS.</span>
                 </h1>
 
                 <p class="dark:text-dark-muted text-slate-500 max-w-lg leading-relaxed mb-10">
@@ -53,14 +53,14 @@
                               px-6 py-3 rounded transition-all hover:brightness-110">
                         Explore Work <i class="fas fa-arrow-right text-xs"></i>
                     </a>
-                    <a href="{{ route('contact') }}"
+                    <a href="{{ route('about') }}"
                        class="inline-flex items-center gap-2
                               dark:bg-dark-card bg-white
                               border dark:border-dark-border border-slate-200
                               dark:text-slate-300 text-slate-700
                               font-semibold text-sm px-6 py-3 rounded shadow-sm
                               hover:border-accent hover:text-accent transition-all">
-                        ARCHITECT.IO
+                        KIAN.BECERA
                     </a>
                 </div>
 
@@ -92,12 +92,49 @@
                     <p class="font-mono text-xs text-accent tracking-widest uppercase mb-4">
                         // engineer.status
                     </p>
+                    <script>
+                        window.scrambleStat = function (el, finalText, delay) {
+                            var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ+ms';
+                            setTimeout(function () {
+                                var frame = 0;
+                                var total = finalText.length;
+                                var totalFrames = Math.max(50, total * 6);
+                                var tick = function () {
+                                    var resolved = Math.floor((frame / totalFrames) * total);
+                                    var out = '';
+                                    for (var i = 0; i < total; i++) {
+                                        var c = finalText[i];
+                                        if (i < resolved) {
+                                            out += c;
+                                        } else if (/[\w+]/.test(c)) {
+                                            out += chars[Math.floor(Math.random() * chars.length)];
+                                        } else {
+                                            out += c;
+                                        }
+                                    }
+                                    el.textContent = out;
+                                    frame++;
+                                    if (frame <= totalFrames) {
+                                        setTimeout(tick, 40);
+                                    } else {
+                                        el.textContent = finalText;
+                                    }
+                                };
+                                tick();
+                            }, delay);
+                        };
+                    </script>
+
                     <div class="grid grid-cols-3 gap-4">
-                        @foreach([['6+','Years Exp.'],['40+','Projects'],['12ms','Avg Latency']] as $stat)
+                        @foreach([['3+','Years Exp.'],['10+','Projects'],['12ms','Avg Latency']] as $si => $stat)
                             <div class="text-center p-3
                                         dark:bg-dark-bg bg-slate-50
                                         rounded-xl">
-                                <p class="text-2xl font-bold text-accent font-mono">{{ $stat[0] }}</p>
+                                <p class="text-2xl font-bold text-accent font-mono"
+                                   x-data
+                                   x-init="scrambleStat($el, '{{ $stat[0] }}', {{ $si * 200 }})">
+                                    {{ $stat[0] }}
+                                </p>
                                 <p class="text-xs dark:text-dark-muted text-slate-500 mt-1">{{ $stat[1] }}</p>
                             </div>
                         @endforeach
@@ -111,21 +148,21 @@
                     </p>
                     <p>
                         <span class="text-emerald-400">+</span>
-                        <span class="dark:text-slate-400 text-slate-500">feat(pipeline):</span>
-                        <span class="dark:text-white text-slate-200">add zero-copy transport</span>
+                        <span class="dark:text-slate-400 text-slate-500">feat(ui):</span>
+                        <span class="dark:text-white text-slate-200"> gallery, footer & specials page — pixel-perfect layouts delivered</span>
                     </p>
                     <p>
                         <span class="text-emerald-400">+</span>
-                        <span class="dark:text-slate-400 text-slate-500">perf(cache):</span>
-                        <span class="dark:text-white text-slate-200">reduce TTL overhead by 40%</span>
+                        <span class="dark:text-slate-400 text-slate-500">perf(env):</span>
+                        <span class="dark:text-white text-slate-200">docker migration complete — local env now containerized & clean</span>
                     </p>
                     <p>
                         <span class="text-red-400">-</span>
-                        <span class="dark:text-slate-500 text-slate-600">chore: remove legacy auth bridge</span>
+                        <span class="dark:text-slate-500 text-slate-600">chore: cms</span>
                     </p>
                     <p class="mt-3 text-accent font-mono text-xs">
-                        ▸ build passing · 0 issues ·
-                        <span class="text-emerald-400">+247 −83</span>
+                        ▸ WordPress 6.9.1 upgraded & Elementor wired in
+                        {{-- <span class="text-emerald-400">+247 −83</span> --}}
                     </p>
                 </div>
             </div>
@@ -150,20 +187,30 @@
             @foreach($techStack as $tech)
                 <div class="dark:bg-dark-bg bg-slate-50
                             border dark:border-dark-border border-slate-200
-                            rounded-2xl p-6 card-lift group">
+                            rounded-2xl p-6 card-lift group
+                            transition-all duration-300
+                            hover:border-accent/40 hover:dark:bg-dark-card">
                     <div class="flex items-center gap-3 mb-4">
-                        {{-- Icon bubble — color injected via style (no Tailwind equiv for hex bg) --}}
-                        <div class="w-10 h-10 rounded-lg flex items-center justify-center text-xl"
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center text-xl
+                                    transition-all duration-300
+                                    group-hover:w-12 group-hover:h-12 group-hover:rounded-xl
+                                    group-hover:shadow-[0_0_18px_rgba(0,229,204,.2)]"
                              style="background:{{ $tech['color'] }}1a; color:{{ $tech['color'] }}">
-                            <i class="{{ $tech['icon'] }}"></i>
+                            <i class="{{ $tech['icon'] }}
+                                      transition-transform duration-300 group-hover:scale-125"></i>
                         </div>
-                        <h3 class="font-semibold dark:text-white text-slate-800 text-sm">
+                        <h3 class="font-semibold dark:text-white text-slate-800 text-sm
+                                   transition-all duration-300
+                                   group-hover:text-accent group-hover:tracking-wider">
                             {{ $tech['name'] }}
                         </h3>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         @foreach($tech['tags'] as $t)
-                            <span class="tag">{{ $t }}</span>
+                            <span class="tag transition-all duration-200
+                                         group-hover:dark:bg-accent/[.14] group-hover:dark:border-accent/40">
+                                {{ $t }}
+                            </span>
                         @endforeach
                     </div>
                 </div>
