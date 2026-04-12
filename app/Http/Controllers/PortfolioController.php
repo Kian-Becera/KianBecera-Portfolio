@@ -106,29 +106,66 @@ class PortfolioController extends Controller
     ];
 
     private array $experience = [
-        [
-            'role'    => 'Principal Engineer',
-            'company' => 'Hyperion Systems',
-            'period'  => '2022 – Present',
-            'tags'    => ['Laravel', 'Go', 'AWS'],
-            'desc'    => 'Architecting scalable microservices for enterprise clients. Led a team of 8 engineers to deliver a distributed ledger platform processing $2B+ in daily transactions.',
+         [
+            'role'    => 'Freelance Graphic Artist',
+            'company' => 'Self-Employed',
+            'period'  => '2022 – Ongoing',
+            'tags'    => ['Logo Design', 'Visual Design', 'Illustration'],
+            'desc'    => 'Conceptualized and designed cohesive brand identities and visual assets, focusing on high-impact logos and marketing materials that align with client vision.',
         ],
         [
-            'role'    => 'Senior Full Stack Developer',
-            'company' => 'Neural Node',
-            'period'  => '2020 – 2022',
-            'tags'    => ['React', 'Node.js', 'PostgreSQL'],
-            'desc'    => 'Principal developer for an AI-powered analytics platform. Reduced infrastructure costs by 60% through intelligent caching and query optimization.',
+            'role'    => 'Freelance Photographer',
+            'company' => 'Self-Employed',
+            'period'  => '2022 – Ongoing',
+            'tags'    => ['Adobe Lightroom', 'Photo Editing', 'Digital Media', 'Color Theory'],
+            'desc'    => 'Specializing in visual storytelling through portrait and lifestyle photography, with a strong emphasis on color grading and aesthetic consistency.',
         ],
         [
-            'role'    => 'Full Stack Engineer',
-            'company' => 'Void Creative',
-            'period'  => '2018 – 2020',
-            'tags'    => ['Vue.js', 'Laravel', 'MySQL'],
-            'desc'    => 'Built bespoke web platforms for creative agencies. Shipped 14 client projects across e-commerce, media, and fintech verticals.',
+            'role'    => 'Computer Laboratory Assistant',
+            'company' => 'BSIS Department, CHMSU ',
+            'period'  => '2022 – 2023',
+            'tags'    => ['Hardware', 'Maintenance', 'Software Support'],
+            'desc'    => 'Managing laboratory infrastructure and providing technical support for software and hardware systems to ensure optimal performance for departmental operations',
+        ],
+        [
+            'role'    => 'Intern- OJT',
+            'company' => 'Business Permits and Licensing Office, Municipal Hall of Manapla',
+            'period'  => '2023',
+            'tags'    => ['Customer Service ', 'Administrative', 'Documentation'],
+            'desc'    => 'Provided administrative and technical support for business licensing operations and customer service documentation during a structured internship.',
+        ],
+        [
+            'role'    => 'Part -Time Crew',
+            'company' => 'LGBT Café & Diner ',
+            'period'  => '2023',
+            'tags'    => ['Customer Service ', 'Food and Beverage Preparation.', 'Maintenance'],
+            'desc'    => 'Provided excellent customer service and operational support, focusing on efficiency and quality standards within a high-volume hospitality setting.',
+        ],
+        [
+            'role'    => 'Accounting Clerk',
+            'company' => 'Accounting & Finance Office, CHMSU ',
+            'period'  => '2023',
+            'tags'    => ['Administrative', 'Documentation', 'Student Support', 'Financial Reporting'],
+            'desc'    => 'Managed accounting and financial records, ensuring accuracy and compliance with regulations.',
+        ],
+        [
+            'role'    => 'Software Engineer',
+            'company' => 'Thy Web Development Inc. ',
+            'period'  => '2023 – 2026',
+            'tags'    => ['Web Development', 'UI/UX Design', 'Client Communication'],
+            'desc'    => 'Designing and developing custom websites for individual, small and Enterprise Businesses, focusing on responsive design and user experience.',
         ],
     ];
 
+    private array $activities = [
+        [
+            'title' => 'Tech Volunteer',
+            'period' => '2020 – 2021',
+            'tags' => ['Event Support', 'Technical Assistance', 'Community Engagement'],
+            'desc' => 'Provided technical support and event assistance for various tech-related activities, fostering',
+        ],
+    ];
+    
     private array $techStack = [
         ['name' => 'WordPress',             'icon' => 'fab fa-wordpress',   'tags' => ['Elementor', 'WPBakery', 'ACF'],          'color' => '#21759b'],
         ['name' => 'React & Ecosystem',     'icon' => 'fab fa-react',       'tags' => ['Redux', 'React Query'],                  'color' => '#61dafb'],
