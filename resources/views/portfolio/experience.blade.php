@@ -79,6 +79,78 @@
     </div>
 </section>
 
+{{-- ══════════════════ CONTRIBUTION GRAPH ════ --}}
+<section class="py-20 border-t dark:border-dark-border border-slate-200
+                dark:bg-dark-card/40 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">
+            // activity
+        </p>
+        <h2 class="text-3xl font-bold dark:text-white text-slate-900 mb-10">
+            Contribution Activity
+        </h2>
+
+        @php
+            mt_srand(2024);
+            $cw = [];
+            for ($w = 0; $w < 52; $w++) {
+                $cw[$w] = [];
+                for ($d = 0; $d < 7; $d++) {
+                    $r = mt_rand(0, 10);
+                    $cw[$w][$d] = $r <= 3 ? 0 : ($r <= 5 ? 1 : ($r <= 7 ? 2 : ($r <= 9 ? 3 : 4)));
+                }
+            }
+            $months = ['May'=>0,'Jun'=>4,'Jul'=>9,'Aug'=>13,'Sep'=>18,'Oct'=>22,'Nov'=>27,'Dec'=>31,'Jan'=>36,'Feb'=>40,'Mar'=>44,'Apr'=>48];
+        @endphp
+
+        <style>
+            .dark .cgrid-0 { background: rgba(13,21,38,0.95); }
+            .dark .cgrid-1 { background: rgba(0,229,204,0.13); }
+            .dark .cgrid-2 { background: rgba(0,229,204,0.32); }
+            .dark .cgrid-3 { background: rgba(0,229,204,0.58); }
+            .dark .cgrid-4 { background: #00e5cc; }
+            html:not(.dark) .cgrid-0 { background: #d1d9e2; }
+            html:not(.dark) .cgrid-1 { background: rgba(8,145,178,0.20); }
+            html:not(.dark) .cgrid-2 { background: rgba(8,145,178,0.42); }
+            html:not(.dark) .cgrid-3 { background: rgba(8,145,178,0.65); }
+            html:not(.dark) .cgrid-4 { background: #0891b2; }
+        </style>
+
+        <div class="dark:bg-dark-card bg-white
+                    border dark:border-dark-border border-slate-200
+                    rounded-2xl p-6 overflow-x-auto no-scrollbar">
+
+            <div class="relative mb-2" style="height:16px">
+                @foreach($months as $month => $col)
+                    <span class="absolute font-mono text-[11px]
+                                 dark:text-slate-500 text-slate-400 leading-none"
+                          style="left:calc({{ $col }} * (100% / 52))">{{ $month }}</span>
+                @endforeach
+            </div>
+
+            <div class="flex gap-[3px]">
+                @for ($w = 0; $w < 52; $w++)
+                    <div class="flex flex-col gap-[3px] flex-1">
+                        @for ($d = 0; $d < 7; $d++)
+                            <div class="w-full aspect-square rounded-[3px] cgrid-{{ $cw[$w][$d] }}"></div>
+                        @endfor
+                    </div>
+                @endfor
+            </div>
+
+            <div class="flex items-center justify-end gap-2 mt-4">
+                <span class="font-mono text-[10px] dark:text-slate-500 text-slate-400">Less</span>
+                @foreach([0,1,2,3,4] as $lvl)
+                    <div class="w-3 h-3 rounded-[2px] cgrid-{{ $lvl }}"></div>
+                @endforeach
+                <span class="font-mono text-[10px] dark:text-slate-500 text-slate-400">More</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
 {{-- ══════════════════════════ CTA ════ --}}
 <section class="py-16 border-t dark:border-dark-border border-slate-200">
     <div class="max-w-7xl mx-auto px-6

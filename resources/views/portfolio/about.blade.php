@@ -69,7 +69,7 @@
                         I bring both design sensibility and engineering discipline to every project.
                     </p>
                     <p>
-                        I hold a B.S. in Information Systems and continuing as a Master's Student in Information Technology.
+                        I hold a B.S. in Information Systems and continuing as a Masteral Student in Information Technology.
                         Currently exploring AI automation workflows and edge-deployment patterns.
                     </p>
                 </div>
@@ -447,15 +447,13 @@
             <div class="relative max-w-3xl mx-auto">
 
                 <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0
-                            w-px dark:bg-dark-border bg-slate-300"></div>
+                            w-1 rounded-full dark:bg-dark-border bg-slate-300"></div>
 
                 <div class="space-y-0">
                     @foreach($education as $i => $edu)
                         @php $left = ($i % 2 === 0); @endphp
 
                         <div data-edu-entry
-                             @mouseenter="hovered = {{ $i }}"
-                             @mouseleave="hovered = null"
                              class="relative grid grid-cols-[1fr_auto_1fr] items-start
                                     animate-fade-up py-10"
                              style="animation-delay:{{ $i * 0.15 }}s">
@@ -502,11 +500,10 @@
                                 @endif
                             </div>
 
-                            <div class="flex flex-col items-center pt-2.5 relative z-10 w-6 h-6">
-                                <div class="rounded-full border-2 shrink-0 transition-all duration-300"
-                                     :class="hovered = {{ $i }}
-                                         ? 'w-10 h-10 bg-accent border-accent shadow-[0_0_18px_6px_rgba(0,229,204,0.5)]'
-                                         : 'w-6 h-6 dark:bg-dark-border bg-slate-300 dark:border-accent/50 border-slate-400'">
+                            <div class="flex flex-col items-center pt-2.5 relative z-10">
+                                <div class="w-4 h-4 rounded-full border-2 shrink-0
+                                            dark:bg-dark-border bg-slate-300
+                                            dark:border-accent/50 border-slate-400">
                                 </div>
                             </div>
 

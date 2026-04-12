@@ -165,7 +165,7 @@
 
 <body class="font-sans antialiased transition-colors duration-300
              dark:bg-dark-bg dark:text-slate-300
-             bg-[#f0f4f8] text-slate-700">
+             bg-[#e8e2d9] text-slate-700">
 
     {{-- ════════════════════════════════ NAV ════ --}}
     <nav x-data="{ open: false }"
