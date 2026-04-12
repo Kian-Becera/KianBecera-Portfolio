@@ -22,10 +22,7 @@
             EXPERIENCE.
         </h1>
         <div class="accent-line w-32 mb-8"></div>
-        <p class="dark:text-dark-muted text-slate-500 max-w-xl">
-            A track record of building reliable systems, shipping fast,
-            and growing with every project.
-        </p>
+      
     </div>
 </section>
 
@@ -34,10 +31,10 @@
     <div class="max-w-7xl mx-auto px-6">
 
         <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">
-            // positions
+            // work history
         </p>
         <h2 class="text-3xl font-bold dark:text-white text-slate-900 mb-12">
-            Work History
+            PRE-PROFESSIONAL EXPERIENCE
         </h2>
 
         <div class="space-y-5">
