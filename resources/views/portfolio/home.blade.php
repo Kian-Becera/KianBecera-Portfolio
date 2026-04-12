@@ -98,7 +98,7 @@
                             setTimeout(function () {
                                 var frame = 0;
                                 var total = finalText.length;
-                                var totalFrames = Math.max(50, total * 6);
+                                var totalFrames = Math.max(40, total * 6);
                                 var tick = function () {
                                     var resolved = Math.floor((frame / totalFrames) * total);
                                     var out = '';
@@ -258,7 +258,6 @@
                             </p>
                             <p class="text-xs dark:text-dark-muted text-slate-500
                                       mt-1 uppercase tracking-widest">
-                                {{ $project['category'] }}
                             </p>
                         </div>
                         <span class="absolute top-4 right-4 font-mono text-xs
@@ -278,7 +277,7 @@
                             @endforeach
                         </div>
                         <span class="text-xs text-accent font-mono group-hover:underline">
-                            View case study →
+                            View Details →
                         </span>
                     </div>
                 </a>
