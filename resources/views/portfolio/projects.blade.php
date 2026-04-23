@@ -24,15 +24,15 @@
                 'writerity' => ['from' => '#503C28', 'to' => '#8B735B'],
                 'ams'      => ['from' => '#14b8a6', 'to' => '#3b82f6'],
                 'katsumok' => ['from' => '#8b5cf6', 'to' => '#ec4899'],
-                'build-process'   => ['from' => '#f59e0b', 'to' => '#ef4444'],
+                'prinstax' => ['from' => '#c9a84c', 'to' => '#7a6010'],
             ];
             $meta = [
                 'qms'             => ['domain'=>'qms.becera.dev', 'duration'=>'6 Months', 'classification'=>'Capstone Project', 'year'=>'© 2022', 'image'=>'images/projects/qms.png'],
                 'cotamila-coffee' => ['domain'=>'cotamila-coffee.becera.dev', 'duration'=>'2 Weeks', 'classification'=>'Personal Project', 'year'=>'© 2026', 'image'=>'images/projects/cotamila.png'],
                 'writerity'  => ['domain'=>'writerity.becera.dev', 'duration'=>'4 Months', 'classification'=>'Client Project', 'year'=>'© 2025', 'image'=>'images/projects/writerity.png'],
-                'ams'      => ['domain'=>'ams.becera.dev',     'duration'=>'2 Months', 'classification'=>'Client Project', 'year'=>'© 2025', 'image'=>'images/projects/ams.png'],
-                'katsumok' => ['domain'=>'katsumok.becera.dev',         'duration'=>'3 Months', 'classification'=>'Client Project', 'year'=>'© 2024', 'image'=>'images/projects/katsumok.png'],
-                'build-process'   => ['domain'=>'build.becera.dev',          'duration'=>'55s', 'classification'=>'22.3MB', 'year'=>'© 2023', 'image'=>null],
+                'ams'      => ['domain'=>'ams.becera.dev', 'duration'=>'2 Months', 'classification'=>'Client Project', 'year'=>'© 2025', 'image'=>'images/projects/ams.png'],
+                'katsumok' => ['domain'=>'katsumok.becera.dev', 'duration'=>'3 Months', 'classification'=>'Client Project', 'year'=>'© 2024', 'image'=>'images/projects/katsumok.png'],
+                'prinstax'   => ['domain'=>'prinstax.becera.dev', 'duration'=>'3 Weeks', 'classification'=>'Personal Project', 'year'=>'© 2026', 'image'=>'images/projects/prinstax.png'],
             ];
         @endphp
 
@@ -124,13 +124,6 @@
                                     {{ $m['classification'] }}
                                 </p>
                             </div>
-                            <span class="font-mono text-xs dark:text-dark-muted text-slate-400
-                                dark:bg-dark-bg bg-slate-100
-                                border dark:border-dark-border border-slate-200
-                                px-3 py-1 rounded-full whitespace-nowrap
-                                absolute top-4 right-4">
-                                {{ $m['year'] }}
-                            </span>
                         </div>
 
                         {{-- Category --}}
@@ -165,12 +158,18 @@
                                     border-t dark:border-dark-border border-slate-100">
                             
                             <div class="flex items-center gap-3">
-                                <a href="{{ route('project.detail', $project['slug']) }}"
+                                {{-- <a href="{{ route('project.detail', $project['slug']) }}"
                                    class="inline-flex items-center gap-1.5 mt-[10px]
                                           bg-accent text-dark-bg font-bold text-xs
                                           px-4 py-1.5 rounded hover:brightness-110 transition-all">
                                     View Details
-                                </a>
+                                </a> --}}
+                                <span class="font-mono text-xs dark:text-dark-muted text-slate-400
+                                             dark:bg-dark-bg bg-slate-100
+                                             border dark:border-dark-border border-slate-200
+                                             px-3 py-1 rounded-full whitespace-nowrap">
+                                    {{ $m['year'] }}
+                                </span>
                             </div>
                         </div>
 
