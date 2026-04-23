@@ -239,25 +239,24 @@
             </a>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6">
+        <div class="flex flex-col gap-6">
             @foreach($featured as $project)
                 <a href="{{ route('project.detail', $project['slug']) }}"
                    class="group dark:bg-dark-card bg-white
                           border dark:border-dark-border border-slate-200
-                          rounded-2xl overflow-hidden card-lift shadow-sm block">
+                          rounded-2xl overflow-hidden card-lift shadow-sm
+                          flex flex-col md:flex-row">
 
-                    {{-- Card thumbnail --}}
-                    <div class="h-48 dark:bg-dark-bg bg-slate-100
-                                relative flex items-center justify-center overflow-hidden">
+                    {{-- Left: title box --}}
+                    <div class="md:w-2/5 dark:bg-dark-bg bg-slate-100
+                                relative flex items-center justify-center
+                                overflow-hidden min-h-[200px]">
                         <div class="absolute inset-0 dot-grid"></div>
-                        <div class="relative z-10 text-center">
+                        <div class="relative z-10 text-center px-6">
                             <p class="font-mono text-2xl font-bold
                                       dark:text-white text-slate-700
                                       group-hover:text-accent transition-colors">
                                 {{ $project['title'] }}
-                            </p>
-                            <p class="text-xs dark:text-dark-muted text-slate-500
-                                      mt-1 uppercase tracking-widest">
                             </p>
                         </div>
                         <span class="absolute top-4 right-4 font-mono text-xs
@@ -266,7 +265,8 @@
                         </span>
                     </div>
 
-                    <div class="p-6">
+                    {{-- Right: content --}}
+                    <div class="flex-1 p-6 flex flex-col justify-center">
                         <p class="dark:text-slate-400 text-slate-600
                                   text-sm leading-relaxed mb-4">
                             {{ $project['description'] }}
@@ -277,7 +277,7 @@
                             @endforeach
                         </div>
                         <span class="text-xs text-accent font-mono group-hover:underline">
-                            View Details →
+                            View All →
                         </span>
                     </div>
                 </a>

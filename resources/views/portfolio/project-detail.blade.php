@@ -41,7 +41,7 @@
 
                 {{-- Action buttons --}}
                 <div class="flex gap-3 mt-2">
-                    @if($project['github'])
+                    @if($project['github'] ?? null)
                         <a href="{{ $project['github'] }}" target="_blank" class="btn-hire">
                             <i class="fab fa-github mr-1.5"></i> Source
                         </a>
