@@ -16,7 +16,7 @@
         <p class="font-mono text-xs text-accent tracking-widest uppercase mb-4">
             // about_me
         </p>
-        <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold
+        <h1 class="text-6xl md:text-7xl lg:text-8xl font-bold
                    dark:text-white text-slate-900 leading-[1] mb-6">
             THE<br>DEVELOPER.
         </h1>
@@ -74,7 +74,7 @@
                     </p>
                 </div>
 
-                <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="mt-8 grid grid-cols-2 gap-4">
                     @foreach([
                         ['label'=>'Email',       'value'=>$email,        'icon'=>'fas fa-envelope'],
                         ['label'=>'Location',    'value'=>$location,     'icon'=>'fas fa-location-dot'],
@@ -444,33 +444,7 @@
                 items: @json($education)
              }">
 
-            {{-- Mobile timeline --}}
-            <div class="md:hidden relative pl-8 border-l-2 dark:border-dark-border border-slate-300 space-y-8">
-                @foreach($education as $i => $edu)
-                    <div class="relative animate-fade-up" style="animation-delay:{{ $i * 0.1 }}s">
-                        <div class="absolute -left-[2.35rem] w-3.5 h-3.5 rounded-full border-2
-                                    dark:bg-dark-bg bg-white
-                                    dark:border-accent/60 border-slate-400 top-1.5"></div>
-                        <p class="font-mono text-[10px] text-accent tracking-widest uppercase mb-1">
-                            {{ $edu['period'] }}
-                        </p>
-                        <h3 class="font-bold dark:text-white text-slate-900 text-base leading-snug mb-1">
-                            {{ $edu['school'] }}
-                        </h3>
-                        <p class="font-mono text-xs text-accent tracking-widest uppercase mb-1">
-                            {{ $edu['degree'] }}
-                        </p>
-                        @if(isset($edu['desc']))
-                            <p class="text-sm dark:text-dark-muted text-slate-500 leading-relaxed">
-                                {{ $edu['desc'] }}
-                            </p>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
-
-            {{-- Desktop timeline --}}
-            <div class="hidden md:block relative max-w-3xl mx-auto">
+            <div class="relative max-w-3xl mx-auto">
 
                 <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0
                             w-1 rounded-full dark:bg-dark-border bg-slate-300"></div>
@@ -580,7 +554,6 @@
                 </div>
 
             </div>
-            </div>{{-- end hidden md:block --}}
 
             <template x-for="(item, i) in items" :key="'preview-' + i">
                 <div x-show="hovered === i"
@@ -670,7 +643,7 @@
     </div>
 </section>
 
-<section class="py-20 border-b dark:border-dark-border border-slate-200 overflow-x-hidden">
+<section class="py-20 border-b dark:border-dark-border border-slate-200">
     <div class="max-w-7xl mx-auto px-6">
 
         <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">
@@ -680,11 +653,11 @@
             Leadership &amp; Activities
         </h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="grid sm:grid-cols-2 gap-5">
             @foreach($leadership as $i => $item)
                 <div class="dark:bg-dark-card bg-white
                             border dark:border-dark-border border-slate-200
-                            rounded-2xl p-6 card-lift shadow-sm animate-fade-up min-w-0 overflow-hidden"
+                            rounded-2xl p-6 card-lift shadow-sm animate-fade-up"
                      style="animation-delay:{{ $i * 0.08 }}s">
 
                     <div class="flex items-start justify-between gap-4">
@@ -832,7 +805,7 @@
                 </div>
 
                 <button @click="prev()"
-                        class="absolute left-3 top-[calc((100vw-3rem)/3)] sm:top-1/2 -translate-y-1/2 z-10
+                        class="absolute left-3 top-1/2 -translate-y-1/2 z-10
                                w-10 h-10 rounded-full
                                dark:bg-dark-bg/90 bg-white/90 backdrop-blur-sm
                                border dark:border-dark-border border-slate-200
@@ -843,7 +816,7 @@
                 </button>
 
                 <button @click="next()"
-                        class="absolute right-3 top-[calc((100vw-3rem)/3)] sm:top-1/2 -translate-y-1/2 z-10
+                        class="absolute right-3 top-1/2 -translate-y-1/2 z-10
                                w-10 h-10 rounded-full
                                dark:bg-dark-bg/90 bg-white/90 backdrop-blur-sm
                                border dark:border-dark-border border-slate-200
