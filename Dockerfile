@@ -3,7 +3,7 @@ FROM node:20-alpine AS node-builder
 WORKDIR /app
 COPY package*.json vite.config.js ./
 COPY resources ./resources
-RUN npm ci --ignore-scripts && npm run build
+RUN npm install && npm run build
 
 # ── Stage 2: production PHP + Nginx image ────────────────────────────────────
 FROM richarvey/nginx-php-fpm:3.1.6
