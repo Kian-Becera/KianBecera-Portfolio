@@ -17,7 +17,7 @@
         <p class="font-mono text-xs text-accent tracking-widest uppercase mb-4">
             // get_in_touch
         </p>
-        <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold
+        <h1 class="text-6xl md:text-7xl lg:text-8xl font-bold
                    dark:text-white text-slate-900 leading-[1] mb-2">
             LET'S<br>BUILD.
         </h1>
@@ -29,7 +29,7 @@
 </section>
 
 {{-- ══════════════════════════ BODY ════ --}}
-<section class="py-20 overflow-x-hidden">
+<section class="py-20">
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid lg:grid-cols-5 gap-10">
 
@@ -39,15 +39,6 @@
                 <h2 class="font-mono text-xs text-accent tracking-widest uppercase mb-6">
                     // initiate_inquiry
                 </h2>
-
-                {{-- Success message --}}
-                @if(session('success'))
-                    <div class="dark:bg-accent/10 bg-cyan-50
-                                border border-accent/40
-                                rounded-xl p-4 mb-6 text-sm text-accent flex items-center gap-2">
-                        <i class="fas fa-circle-check"></i> {{ session('success') }}
-                    </div>
-                @endif
 
                 {{-- Validation errors --}}
                 @if($errors->any())
@@ -78,7 +69,7 @@
                                           uppercase tracking-widest mb-2">Name</label>
                             <input type="text" name="name"
                                    value="{{ old('name') }}"
-                                   placeholder="Name"
+                                   placeholder="Alex Chen"
                                    class="field @error('name') !border-red-500 @enderror">
                         </div>
                         <div>
@@ -87,7 +78,7 @@
                                           uppercase tracking-widest mb-2">Email</label>
                             <input type="email" name="email"
                                    value="{{ old('email') }}"
-                                   placeholder="Email"
+                                   placeholder="alex@company.io"
                                    class="field @error('email') !border-red-500 @enderror">
                         </div>
                     </div>
@@ -97,15 +88,14 @@
                         <label class="block font-mono text-xs
                                       dark:text-dark-muted text-slate-500
                                       uppercase tracking-widest mb-2">
-                            Nature of Inquiry
+                            Project Budget
                         </label>
-                        <select name="budget" class="field max-w-full">
-                            <option value="" class="dark:bg-dark-bg bg-white">Select</option>
-                            <option value="Employment"            class="dark:bg-dark-bg bg-white">Employment</option>
-                            <option value="Freelance / Contract"  class="dark:bg-dark-bg bg-white">Freelance / Contract</option>
-                            <option value="Project Collaboration" class="dark:bg-dark-bg bg-white">Project Collaboration</option>
-                            <option value="Personal"              class="dark:bg-dark-bg bg-white">Personal</option>
-                            <option value="Consultation"          class="dark:bg-dark-bg bg-white">Consultation</option>
+                        <select name="budget" class="field">
+                            <option value="" class="dark:bg-dark-bg bg-white">Select a range</option>
+                            <option value="<5k"      class="dark:bg-dark-bg bg-white">Under $5,000</option>
+                            <option value="5k-15k"   class="dark:bg-dark-bg bg-white">$5,000 – $15,000</option>
+                            <option value="15k-50k"  class="dark:bg-dark-bg bg-white">$15,000 – $50,000</option>
+                            <option value="50k+"     class="dark:bg-dark-bg bg-white">$50,000+</option>
                         </select>
                     </div>
 
@@ -175,9 +165,9 @@
                     <div class="space-y-3">
                         @foreach([
                             ['icon'=>'fas fa-envelope',  'label'=>'Email',    'value'=>$email,        'href'=>'mailto:'.$email],
-                            ['icon'=>'fab fa-x-twitter', 'label'=>'Twitter',  'value'=>'@kyaa_nnn', 'href'=>$twitter],
-                            ['icon'=>'fab fa-github',    'label'=>'GitHub',   'value'=>'Kian-Becera',  'href'=>$github],
-                            ['icon'=>'fab fa-linkedin',  'label'=>'LinkedIn', 'value'=>'Kian Becera','href'=>$linkedin],
+                            ['icon'=>'fab fa-x-twitter', 'label'=>'Twitter',  'value'=>'@alexmorgan', 'href'=>$twitter],
+                            ['icon'=>'fab fa-github',    'label'=>'GitHub',   'value'=>'alexmorgan',  'href'=>$github],
+                            ['icon'=>'fab fa-linkedin',  'label'=>'LinkedIn', 'value'=>'in/alexmorgan','href'=>$linkedin],
                         ] as $ch)
                             <a href="{{ $ch['href'] }}" target="_blank"
                                class="flex items-center gap-3 p-3
