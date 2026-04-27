@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PortfolioController extends Controller
 {
@@ -299,10 +300,16 @@ class PortfolioController extends Controller
 
     public function home()
     {
+        $featuredSlugs = ['qms', 'prinstax'];
+        $featured = array_values(array_filter(
+            $this->projects,
+            fn($p) => in_array($p['slug'], $featuredSlugs)
+        ));
+
         return view('portfolio.home', [
             ...$this->config,
-            'featured'   => array_slice($this->projects, 0, 2),
-            'techStack'  => $this->techStack,
+            'featured'  => $featured,
+            'techStack' => $this->techStack,
         ]);
     }
 
@@ -354,12 +361,30 @@ class PortfolioController extends Controller
 
     public function sendContact(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name'    => 'required|string|max:100',
             'email'   => 'required|email|max:150',
             'budget'  => 'nullable|string|max:50',
             'message' => 'required|string|max:3000',
         ]);
+
+        Mail::raw(
+            implode("\n", [
+                "New contact form submission",
+                "----------------------------",
+                "Name    : {$data['name']}",
+                "Email   : {$data['email']}",
+                "Inquiry : " . ($data['budget'] ?? '—'),
+                "",
+                "Message :",
+                $data['message'],
+            ]),
+            function ($msg) use ($data) {
+                $msg->to('becera.kian@gmail.com')
+                    ->replyTo($data['email'], $data['name'])
+                    ->subject("Portfolio inquiry from {$data['name']}");
+            }
+        );
 
         return redirect()->route('contact')
             ->with('success', 'Transmission received. I\'ll respond within 24 hours.');
