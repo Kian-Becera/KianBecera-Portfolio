@@ -10,7 +10,7 @@
             <p class="font-mono text-xs text-accent tracking-widest uppercase mb-3">
                 // selected_works
             </p>
-            <h1 class="text-5xl md:text-6xl font-bold dark:text-white text-slate-900 mb-4">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold dark:text-white text-slate-900 mb-4">
                 Selected Works
             </h1>
            
@@ -50,8 +50,8 @@
                      style="animation-delay:{{ $i * 0.07 }}s">
 
                     {{-- ── LEFT: preview mockup ── --}}
-                    <div class="md:w-[38%] flex flex-col shrink-0 relative overflow-hidden
-                                dark:bg-dark-bg bg-slate-100 min-h-[220px]">
+                    <div class="w-full md:w-[38%] flex flex-col shrink-0 relative overflow-hidden
+                                dark:bg-dark-bg bg-slate-100 min-h-[200px] md:min-h-[220px]">
 
                         {{-- Browser chrome --}}
                         <div class="flex items-center gap-2 px-4 py-3
@@ -79,7 +79,7 @@
                                 <div class="absolute inset-0"
                                      style="background: linear-gradient(to bottom, transparent 40%, {{ $g['from'] }}88 100%)"></div>
                                 <div class="absolute bottom-0 left-0 right-0 p-4 z-10">
-                                    <h3 class="font-mono font-bold text-sm leading-tight text-white drop-shadow">
+                                    <h3 class="font-mono font-bold text-sm leading-tight text-black drop-shadow">
                                         {{ $project['title'] }}
                                     </h3>
                                 </div>
@@ -109,7 +109,7 @@
                                 dark:border-dark-border border-slate-200">
 
                         {{-- Stats grid --}}
-                        <div class="grid grid-cols-3 gap-x-5 gap-y-2">
+                        <div class="grid grid-cols-2 gap-x-5 gap-y-2">
                             <div>
                                 <p class="font-mono text-xs dark:text-dark-muted text-slate-400
                                           uppercase tracking-widest mb-0.5">Build duration</p>
