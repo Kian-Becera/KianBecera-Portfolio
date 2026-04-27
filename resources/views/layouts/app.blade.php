@@ -253,7 +253,7 @@
                 </button>
                 <button @click="open = !open"
                         class="dark:text-slate-400 text-slate-600 hover:text-accent transition-colors">
-                    <i :class="open ? 'fa-xmark' : 'fa-bars'" class="fas fa-bars text-lg"></i>
+                    <i :class="open ? 'fa-xmark' : 'fa-bars'" class="fas text-lg"></i>
                 </button>
             </div>
         </div>
@@ -271,7 +271,7 @@
                     px-6 py-4 space-y-1">
             @foreach([
                 ['label' => 'Projects',   'href' => route('projects'),                   'active' => 'projects'],
-                ['label' => 'Experience', 'href' => route('experience'),                    'active' => 'experience'],
+                ['label' => 'Experience', 'href' => route('about') . '#work-history',     'active' => null],
                 ['label' => 'About',      'href' => route('about'),                       'active' => 'about'],
                 ['label' => 'Contact',    'href' => route('contact'),                     'active' => 'contact'],
             ] as $link)
@@ -324,6 +324,8 @@
             </span>
             <p class="text-xs dark:text-dark-muted text-slate-400">
                 &copy; {{ date('Y') }} {{ $name ?? 'Alex Morgan' }}
+                — Created in
+                <span class="text-[#fd366e]">Stitch. </span>
                 Built with
                 <span class="text-accent">Laravel</span> &amp;
                 <span class="text-accent">Tailwind CSS</span>
@@ -367,36 +369,6 @@
             }
             window.addEventListener('scroll', onScroll, { passive: true });
             document.addEventListener('DOMContentLoaded', update);
-        })();
-    </script>
-
-    {{-- Go to Top button --}}
-    <button id="go-top-btn"
-            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-            class="fixed bottom-6 right-6 z-50
-                   w-10 h-10 rounded-full
-                   bg-accent text-dark-bg
-                   flex items-center justify-center
-                   shadow-lg hover:brightness-110 transition-all duration-300
-                   opacity-0 pointer-events-none translate-y-4">
-        <i class="fas fa-arrow-up text-sm"></i>
-    </button>
-    <script>
-        (function () {
-            var btn = document.getElementById('go-top-btn');
-            var threshold = Math.max(300, document.documentElement.scrollHeight * 0.4);
-            function toggleBtn() {
-                var scrolled = window.scrollY + window.innerHeight;
-                var total = document.documentElement.scrollHeight;
-                if (scrolled >= total * 0.6) {
-                    btn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
-                    btn.classList.add('opacity-100', 'translate-y-0');
-                } else {
-                    btn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
-                    btn.classList.remove('opacity-100', 'translate-y-0');
-                }
-            }
-            window.addEventListener('scroll', toggleBtn, { passive: true });
         })();
     </script>
 </body>
