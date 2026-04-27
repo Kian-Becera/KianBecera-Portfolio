@@ -34,11 +34,11 @@
 
                 {{-- Headline --}}
                 <h1 class="font-bold leading-[1.05] dark:text-white text-slate-900 mb-6">
-                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">CODE</span>
-                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">THAT</span>
-                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight italic
+                    <span class="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight">CODE</span>
+                    <span class="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight">THAT</span>
+                    <span class="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight italic
                                  text-accent glow-accent">DRIVES</span>
-                    <span class="block text-5xl md:text-6xl lg:text-7xl tracking-tight">RESULTS.</span>
+                    <span class="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight">RESULTS.</span>
                 </h1>
 
                 <p class="dark:text-dark-muted text-slate-500 max-w-lg leading-relaxed mb-10">
@@ -183,7 +183,7 @@
             <div class="flex-1 accent-line opacity-40"></div>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-5">
+        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
             @foreach($techStack as $tech)
                 <div class="dark:bg-dark-bg bg-slate-50
                             border dark:border-dark-border border-slate-200
@@ -241,7 +241,7 @@
 
         <div class="flex flex-col gap-6">
             @foreach($featured as $project)
-                <a href="{{ route('project.detail', $project['slug']) }}"
+                <a href="{{ route('projects') }}"
                    class="group dark:bg-dark-card bg-white
                           border dark:border-dark-border border-slate-200
                           rounded-2xl overflow-hidden card-lift shadow-sm
@@ -267,10 +267,7 @@
 
                     {{-- Right: content --}}
                     <div class="flex-1 p-6 flex flex-col justify-center">
-                        <p class="dark:text-slate-400 text-slate-600
-                                  text-sm leading-relaxed mb-4">
-                            {{ $project['description'] }}
-                        </p>
+
                         <div class="flex flex-wrap gap-2 mb-4">
                             @foreach(array_slice($project['tags'], 0, 4) as $t)
                                 <span class="tag">{{ $t }}</span>
