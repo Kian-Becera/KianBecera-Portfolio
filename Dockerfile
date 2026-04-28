@@ -12,6 +12,16 @@ COPY . .
 # Bring in the compiled CSS/JS from the node stage
 COPY --from=node-builder /app/public/build ./public/build
 
+# Install PHP dependencies and set storage permissions at build time
+# so the startup script cannot fail due to missing vendor/ or bad permissions
+RUN composer install --no-dev --optimize-autoloader && \
+    mkdir -p storage/framework/sessions \
+             storage/framework/views \
+             storage/framework/cache/data \
+             storage/logs && \
+    chown -R nginx:nginx storage bootstrap/cache && \
+    chmod -R 775 storage bootstrap/cache
+
 ENV SKIP_COMPOSER 1
 ENV WEBROOT /var/www/html/public
 ENV PHP_ERRORS_STDERR 1
