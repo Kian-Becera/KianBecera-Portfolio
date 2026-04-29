@@ -41,7 +41,7 @@ export default function Experience() {
           <p className="font-mono text-xs text-accent tracking-widest uppercase mb-4">
             // work_history
           </p>
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold
                          dark:text-white text-slate-900 leading-[1] mb-6">
             EXPERIENCE.
           </h1>
@@ -108,33 +108,36 @@ export default function Experience() {
           <div className="dark:bg-dark-card bg-white
                           border dark:border-dark-border border-slate-200
                           rounded-2xl p-6 overflow-x-auto no-scrollbar">
+            <div className="min-w-[560px]">
 
-            <div className="relative mb-2" style={{ height: 16 }}>
-              {Object.entries(MONTHS).map(([month, col]) => (
-                <span key={month}
-                  className="absolute font-mono text-[11px] dark:text-slate-500 text-slate-400 leading-none"
-                  style={{ left: `calc(${col} * (100% / 52))` }}>
-                  {month}
-                </span>
-              ))}
-            </div>
+              <div className="relative mb-2" style={{ height: 16 }}>
+                {Object.entries(MONTHS).map(([month, col]) => (
+                  <span key={month}
+                    className="absolute font-mono text-[11px] dark:text-slate-500 text-slate-400 leading-none"
+                    style={{ left: `calc(${col} * (100% / 52))` }}>
+                    {month}
+                  </span>
+                ))}
+              </div>
 
-            <div className="flex gap-[3px]">
-              {grid.map((week, w) => (
-                <div key={w} className="flex flex-col gap-[3px] flex-1">
-                  {week.map((level, d) => (
-                    <div key={d} className={`w-full aspect-square rounded-[3px] cgrid-${level}`} />
-                  ))}
-                </div>
-              ))}
-            </div>
+              <div className="flex gap-[3px]">
+                {grid.map((week, w) => (
+                  <div key={w} className="flex flex-col gap-[3px] flex-1">
+                    {week.map((level, d) => (
+                      <div key={d} className={`w-full aspect-square rounded-[3px] cgrid-${level}`} />
+                    ))}
+                  </div>
+                ))}
+              </div>
 
-            <div className="flex items-center justify-end gap-2 mt-4">
-              <span className="font-mono text-[10px] dark:text-slate-500 text-slate-400">Less</span>
-              {[0, 1, 2, 3, 4].map((lvl) => (
-                <div key={lvl} className={`w-3 h-3 rounded-[2px] cgrid-${lvl}`} />
-              ))}
-              <span className="font-mono text-[10px] dark:text-slate-500 text-slate-400">More</span>
+              <div className="flex items-center justify-end gap-2 mt-4">
+                <span className="font-mono text-[10px] dark:text-slate-500 text-slate-400">Less</span>
+                {[0, 1, 2, 3, 4].map((lvl) => (
+                  <div key={lvl} className={`w-3 h-3 rounded-[2px] cgrid-${lvl}`} />
+                ))}
+                <span className="font-mono text-[10px] dark:text-slate-500 text-slate-400">More</span>
+              </div>
+
             </div>
           </div>
         </div>

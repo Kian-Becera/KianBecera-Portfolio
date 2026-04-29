@@ -128,7 +128,7 @@ export const experience = [
   },
   {
     role:    'Part-Time Crew',
-    company: 'LGBT Café & Diner',
+    company: 'LGBTea Café & Diner',
     period:  '2023',
     tags:    ['Customer Service', 'Food and Beverage Preparation', 'Maintenance'],
     desc:    'Provided excellent customer service and operational support, focusing on efficiency and quality standards within a high-volume hospitality setting.',
