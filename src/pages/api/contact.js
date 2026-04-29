@@ -14,31 +14,36 @@ export default async function handler(req, res) {
     return res.status(422).json({ message: 'Invalid email address.' });
   }
 
-  try {
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      const transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE || 'gmail',
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error('Missing EMAIL_USER or EMAIL_PASS environment variables.');
+    return res.status(503).json({ message: 'Email service is not configured.' });
+  }
 
-      await transporter.sendMail({
-        from:    `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-        to:      process.env.EMAIL_TO || 'becera.kian@gmail.com',
-        replyTo: email,
-        subject: `[Portfolio] New message from ${name}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          ${inquiry ? `<p><strong>Purpose:</strong> ${inquiry}</p>` : ''}
-          <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
-        `,
-      });
-    }
+  try {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from:    `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
+      to:      process.env.EMAIL_TO || process.env.EMAIL_USER,
+      replyTo: email,
+      subject: `[Portfolio] New message from ${name}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        ${inquiry ? `<p><strong>Purpose:</strong> ${inquiry}</p>` : ''}
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+      `,
+    });
 
     return res.status(200).json({ message: 'Message sent successfully.' });
   } catch (err) {

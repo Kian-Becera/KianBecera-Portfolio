@@ -299,7 +299,7 @@ export default function About() {
                         rounded-full blur-3xl -translate-y-1/2" />
         <div className="max-w-7xl mx-auto px-6 animate-fade-up">
           <p className="font-mono text-xs text-accent tracking-widest uppercase mb-4">// about_me</p>
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold
                          dark:text-white text-slate-900 leading-[1] mb-6">
             THE<br />DEVELOPER.
           </h1>
