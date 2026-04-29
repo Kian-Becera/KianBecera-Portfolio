@@ -13,7 +13,7 @@ export default function Projects() {
               // selected_works
             </p>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold dark:text-white text-slate-900 mb-4">
-              Selected Works
+              SELECTED WORKS
             </h1>
             <div className="accent-line mt-8 w-24" />
           </div>
