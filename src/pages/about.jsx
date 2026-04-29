@@ -44,8 +44,8 @@ function CertCarousel({ items }) {
                 <div className="group dark:bg-dark-card bg-slate-50
                                 border dark:border-dark-border border-slate-200
                                 rounded-2xl overflow-hidden shadow-sm
-                                flex flex-col md:flex-row md:min-h-[480px]">
-                  <div className="md:w-1/2 aspect-[3/2] md:aspect-auto
+                                flex flex-col md:flex-row min-h-[440px] md:min-h-[480px]">
+                  <div className="md:w-1/2 h-52 sm:h-60 md:h-auto md:aspect-auto
                                   dark:bg-dark-bg bg-slate-200
                                   flex items-center justify-center
                                   relative overflow-hidden shrink-0">
@@ -72,7 +72,7 @@ function CertCarousel({ items }) {
                       </>
                     )}
                   </div>
-                  <div className="md:w-1/2 flex flex-col justify-center p-8 md:p-14">
+                  <div className="md:w-1/2 flex flex-col justify-center flex-1 p-8 md:p-14">
                     <div className="inline-flex items-center gap-2 mb-5">
                       <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                       <span className="font-mono text-xs text-accent tracking-widest uppercase">
