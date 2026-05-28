@@ -104,6 +104,7 @@ export const experience = [
     period:  '2022 – Ongoing',
     tags:    ['Logo Design', 'Visual Design', 'Illustration'],
     desc:    'Conceptualized and designed cohesive brand identities and visual assets, focusing on high-impact logos and marketing materials that align with client vision.',
+    image: '/images/locations/manapla.png',
   },
   {
     role:    'Freelance Photographer',
@@ -111,6 +112,7 @@ export const experience = [
     period:  '2022 – Ongoing',
     tags:    ['Adobe Lightroom', 'Photo Editing', 'Digital Media', 'Color Theory'],
     desc:    'Specializing in visual storytelling through portrait and lifestyle photography, with a strong emphasis on color grading and aesthetic consistency.',
+    image: '/images/locations/manapla.png',
   },
   {
     role:    'Computer Laboratory Assistant',
@@ -118,6 +120,7 @@ export const experience = [
     period:  '2022 – 2023',
     tags:    ['Hardware', 'Maintenance', 'Software Support'],
     desc:    'Managing laboratory infrastructure and providing technical support for software and hardware systems to ensure optimal performance for departmental operations',
+    image: '/images/locations/talisay.png',
   },
   {
     role:    'Intern- OJT',
@@ -125,6 +128,7 @@ export const experience = [
     period:  '2023',
     tags:    ['Customer Service', 'Administrative', 'Documentation'],
     desc:    'Provided administrative and technical support for business licensing operations and customer service documentation during a structured internship.',
+    image: '/images/locations/manapla.png',
   },
   {
     role:    'Part-Time Crew',
@@ -132,6 +136,7 @@ export const experience = [
     period:  '2023',
     tags:    ['Customer Service', 'Food and Beverage Preparation', 'Maintenance'],
     desc:    'Provided excellent customer service and operational support, focusing on efficiency and quality standards within a high-volume hospitality setting.',
+    image: '/images/locations/manapla.png',
   },
   {
     role:    'Accounting Clerk',
@@ -139,6 +144,7 @@ export const experience = [
     period:  '2023',
     tags:    ['Administrative', 'Documentation', 'Student Support', 'Financial Reporting'],
     desc:    'Managed accounting and financial records, ensuring accuracy and compliance with regulations.',
+    image: '/images/locations/talisay.png',
   },
   {
     role:    'Software Engineer',
@@ -146,6 +152,7 @@ export const experience = [
     period:  '2023 – 2026',
     tags:    ['Web Development', 'UI/UX Design', 'Client Communication'],
     desc:    'Designing and developing custom websites for individual, small and Enterprise Businesses, focusing on responsive design and user experience.',
+    image: '/images/locations/bacolod.png',
   },
 ];
 
