@@ -29,7 +29,7 @@ function buildGrid() {
 const grid = buildGrid();
 const MONTHS = { May: 0, Jun: 4, Jul: 9, Aug: 13, Sep: 18, Oct: 22, Nov: 27, Dec: 31, Jan: 36, Feb: 40, Mar: 44, Apr: 48 };
 
-const LocationLink = ({ imageSrc }) => {
+const LocationLink = ({ imageSrc, company }) => {
   const [showImage, setShowImage] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -81,9 +81,9 @@ const LocationLink = ({ imageSrc }) => {
     <>
       <button
         onClick={() => setShowImage(true)}
-        className="text-xs underline text-white font-mono bg-transparent border-none p-0 cursor-pointer mt-0.5"
+        className="text-accent font-mono text-sm mt-0.5 underline bg-transparent border-none p-0 cursor-pointer text-left"
       >
-        Location
+        {company}
       </button>
       {mounted && createPortal(modal, document.body)}
     </>
@@ -134,9 +134,7 @@ export default function Experience() {
                     <h3 className="font-bold dark:text-white text-slate-900 text-lg">
                       {exp.role}
                     </h3>
-                    <h4 className="text-accent font-mono text-sm mt-0.5">{exp.company}</h4>
-
-                    <LocationLink imageSrc={exp.image} />
+                    <LocationLink imageSrc={exp.image} company={exp.company} />
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
                     {exp.tags.map((t) => (

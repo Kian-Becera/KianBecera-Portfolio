@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import { config, techStack, certificates, education, leadership } from '../data/portfolio';
@@ -279,16 +280,87 @@ function EduHat({ sectionRef }) {
 }
 
 export default function About() {
-  const [hoveredEdu, setHoveredEdu] = useState(null);
-  const [modalEdu, setModalEdu] = useState(null);
-  const [resumeOpen, setResumeOpen] = useState(false);
+  const [hoveredEdu, setHoveredEdu]   = useState(null);
+  const [modalEdu,   setModalEdu]     = useState(null);
+  const [resumeOpen, setResumeOpen]   = useState(false);
+  const [mounted,    setMounted]      = useState(false);
   const eduSectionRef = useRef(null);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') { setModalEdu(null); setResumeOpen(false); } };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
+
+  /* ── School → background image map ── */
+  const EDU_IMAGES = {
+    'Patlagan Elementary School':                                      '/images/locations/manapla2.png',
+    'Manapla National High School':                                    '/images/locations/manapla2.png',
+    'Carlos Hilado Memorial State University (CHMSU) - Talisay Campus': '/images/locations/talisay2.png',
+    'State University of Northern Negros (SUNN)':                      '/images/locations/sagay.png',
+  };
+
+  /* ── Portaled modals ── */
+  const eduModal = modalEdu !== null && (() => {
+    const edu = education[modalEdu];
+    const bgImg = EDU_IMAGES[edu.school];
+    return (
+      <div
+        onMouseDown={(e) => { if (e.target === e.currentTarget) setModalEdu(null); }}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 9999,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '1rem',
+          backgroundColor: 'rgba(0,0,0,0.6)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)',
+        }}
+      >
+        <div
+          className="relative w-full max-w-md
+                      border dark:border-dark-border border-slate-200
+                      rounded-2xl shadow-2xl overflow-hidden"
+          style={{
+            backgroundImage: bgImg ? `url(${bgImg})` : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          {/* FIX: reduced overlay opacity from /60 → /25 so bg image is clearly visible */}
+          <div className="absolute inset-0 dark:bg-dark-card/25 bg-white/25" />
+
+          {/* close button */}
+          <button onClick={() => setModalEdu(null)}
+            className="absolute top-3 right-3 z-20 w-7 h-7
+                       bg-black/40 hover:bg-black/65
+                       rounded-lg flex items-center justify-center
+                       text-white transition-colors text-xs">
+            <i className="fas fa-xmark" />
+          </button>
+
+          {/* Content */}
+          <div className="relative z-10 p-8">
+            <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5">
+              <i className="fas fa-graduation-cap text-accent text-lg" />
+            </div>
+            <p className="font-mono text-xs text-accent tracking-widest uppercase mb-2">
+              {edu.period}
+            </p>
+            <h3 className="font-bold dark:text-white text-slate-900 text-xl leading-snug mb-1">
+              {edu.degree}
+            </h3>
+            <p className="font-mono text-sm text-accent mb-5">{edu.school}</p>
+            <div className="h-px dark:bg-dark-border bg-slate-200 mb-5" />
+            <p className="dark:text-slate-400 text-slate-600 text-sm leading-relaxed">
+              {edu.desc}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  })();
 
   return (
     <Layout title="About — KIAN BECERA">
@@ -525,7 +597,7 @@ export default function About() {
             <div className="space-y-0">
               {education.map((edu, i) => {
                 const left = i % 2 === 0;
-                const clickable = i < 2;
+                const clickable = true;
                 return (
                   <div key={i} data-edu-entry
                     className="relative grid grid-cols-[1fr_auto_1fr] items-start animate-fade-up py-10"
@@ -608,41 +680,6 @@ export default function About() {
                 {education[hoveredEdu].desc}
               </p>
               <p className="font-mono text-[10px] text-accent/60 mt-3">Click to view details →</p>
-            </div>
-          )}
-
-          {/* Education modal */}
-          {modalEdu !== null && (
-            <div onClick={(e) => { if (e.target === e.currentTarget) setModalEdu(null); }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4
-                         bg-black/60 backdrop-blur-sm">
-              <div className="relative w-full max-w-md
-                              dark:bg-dark-card bg-white
-                              border dark:border-dark-border border-slate-200
-                              rounded-2xl p-8 shadow-2xl">
-                <button onClick={() => setModalEdu(null)}
-                  className="absolute top-4 right-4 w-7 h-7
-                             dark:bg-dark-bg bg-slate-100
-                             rounded-lg flex items-center justify-center
-                             dark:text-dark-muted text-slate-500
-                             hover:text-accent transition-colors text-xs">
-                  <i className="fas fa-xmark" />
-                </button>
-                <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5">
-                  <i className="fas fa-graduation-cap text-accent text-lg" />
-                </div>
-                <p className="font-mono text-xs text-accent tracking-widest uppercase mb-2">
-                  {education[modalEdu].period}
-                </p>
-                <h3 className="font-bold dark:text-white text-slate-900 text-xl leading-snug mb-1">
-                  {education[modalEdu].degree}
-                </h3>
-                <p className="font-mono text-sm text-accent mb-5">{education[modalEdu].school}</p>
-                <div className="h-px dark:bg-dark-border bg-slate-100 mb-5" />
-                <p className="dark:text-slate-400 text-slate-600 text-sm leading-relaxed">
-                  {education[modalEdu].desc}
-                </p>
-              </div>
             </div>
           )}
         </div>
@@ -764,6 +801,9 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* ── Portaled education modal ── */}
+      {mounted && createPortal(eduModal, document.body)}
     </Layout>
   );
 }
