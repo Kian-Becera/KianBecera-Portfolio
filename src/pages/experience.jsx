@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import { experience, techStack } from '../data/portfolio';
@@ -26,6 +28,67 @@ function buildGrid() {
 
 const grid = buildGrid();
 const MONTHS = { May: 0, Jun: 4, Jul: 9, Aug: 13, Sep: 18, Oct: 22, Nov: 27, Dec: 31, Jan: 36, Feb: 40, Mar: 44, Apr: 48 };
+
+const LocationLink = ({ imageSrc }) => {
+  const [showImage, setShowImage] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') setShowImage(false); };
+    if (showImage) document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [showImage]);
+
+  const modal = showImage && (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+      }}
+      onMouseDown={(e) => { if (e.target === e.currentTarget) setShowImage(false); }}
+    >
+      <div style={{ position: 'relative', borderRadius: '1rem', overflow: 'hidden', boxShadow: '0 25px 60px rgba(0,0,0,0.6)' }}>
+        <button
+          onClick={() => setShowImage(false)}
+          style={{
+            position: 'absolute', top: 8, right: 8, zIndex: 10,
+            background: 'rgba(0,0,0,0.55)', border: 'none', color: '#fff',
+            borderRadius: '50%', width: 28, height: 28,
+            cursor: 'pointer', fontSize: 14, fontWeight: 'bold',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <img
+          src={imageSrc}
+          alt="Location Map"
+          style={{ display: 'block', width: '420px', height: 'auto' }}
+        />
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      <button
+        onClick={() => setShowImage(true)}
+        className="text-xs underline text-white font-mono bg-transparent border-none p-0 cursor-pointer mt-0.5"
+      >
+        Location
+      </button>
+      {mounted && createPortal(modal, document.body)}
+    </>
+  );
+};
 
 export default function Experience() {
   return (
@@ -71,7 +134,9 @@ export default function Experience() {
                     <h3 className="font-bold dark:text-white text-slate-900 text-lg">
                       {exp.role}
                     </h3>
-                    <p className="text-accent font-mono text-sm mt-0.5">{exp.company}</p>
+                    <h4 className="text-accent font-mono text-sm mt-0.5">{exp.company}</h4>
+
+                    <LocationLink imageSrc={exp.image} />
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
                     {exp.tags.map((t) => (
