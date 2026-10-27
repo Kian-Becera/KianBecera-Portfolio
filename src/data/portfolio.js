@@ -154,6 +154,13 @@ export const experience = [
     desc:    'Designing and developing custom websites for individual, small and Enterprise Businesses, focusing on responsive design and user experience.',
     image: '/images/locations/bacolod.png',
   },
+  {
+    role: ' BSIT Instructor',
+    company: 'Central Philippine State University - Victorias City Campus',
+    period: '2026 – Ongoing',
+    tags: ['Software Development', 'Database Management', 'Web Technologies'],
+    desc: 'Teaching and mentoring students in software development, database management, and web technologies, fostering practical skills and industry readiness.',
+  },
 ];
 
 export const techStack = [
@@ -211,8 +218,8 @@ export const projectGradients = {
 export const projectMeta = {
   'qms':           { domain: 'qms.becera.dev',           duration: '6 Months',  classification: 'Capstone Project',  year: '© 2022', image: '/images/projects/qms.png' },
   'cotamila-coffee': { domain: 'cotamila-coffee.becera.dev', duration: '2 Weeks', classification: 'Personal Project', year: '© 2026', image: '/images/projects/cotamila.png' },
-  'writerity':     { domain: 'writerity.becera.dev',     duration: '4 Months',  classification: 'Client Project',    year: '© 2025', image: '/images/projects/writerity.png' },
+  'writerity':     { domain: 'writerity.com',     duration: '4 Months',  classification: 'Client Project',    year: '© 2025', image: '/images/projects/writerity.png' },
   'ams':           { domain: 'ams.becera.dev',           duration: '2 Months',  classification: 'Client Project',    year: '© 2025', image: '/images/projects/ams.png' },
-  'katsumok':      { domain: 'katsumok.becera.dev',      duration: '3 Months',  classification: 'Client Project',    year: '© 2024', image: '/images/projects/katsumok.png' },
+  'katsumok':      { domain: 'katsumok.com',      duration: '3 Months',  classification: 'Client Project',    year: '© 2024', image: '/images/projects/katsumok.png' },
   'prinstax':      { domain: 'prinstax.becera.dev',      duration: '3 Weeks',   classification: 'Personal Project',  year: '© 2026', image: '/images/projects/prinstax.png' },
 };
