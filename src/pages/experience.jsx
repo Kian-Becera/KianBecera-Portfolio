@@ -1,33 +1,185 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import { experience, techStack } from '../data/portfolio';
 
-/* Seeded LCG PRNG for stable contribution grid */
-function seededRand(seed) {
-  let s = seed >>> 0;
-  return function () {
-    s = (Math.imul(1664525, s) + 1013904223) >>> 0;
-    return s / 4294967296;
+/* ───────── Contribution activity (live GitHub data) ───────── */
+const GH_USERNAME = 'Becera-Kian';         
+const GH_YEARS = [2026, 2025, 2024, 2023]; 
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function buildWeeks(days) {
+  if (!days.length) return { weeks: [], months: [] };
+  const first = new Date(days[0].date + 'T00:00:00');
+  const padded = [...Array(first.getDay()).fill(null), ...days];
+  const weeks = [];
+  for (let i = 0; i < padded.length; i += 7) weeks.push(padded.slice(i, i + 7));
+  const months = [];
+  let last = -1;
+  weeks.forEach((week, w) => {
+    const d = week.find(Boolean);
+    if (!d) return;
+    const m = new Date(d.date + 'T00:00:00').getMonth();
+    if (m !== last) { months.push({ label: MONTH_NAMES[m], col: w }); last = m; }
+  });
+  return { weeks, months };
+}
+
+function Radar({ data }) {
+  const total = data.commits + data.issues + data.pullRequests + data.reviews || 1;
+  const pct = {
+    review:  (data.reviews / total) * 100,
+    issues:  (data.issues / total) * 100,
+    prs:     (data.pullRequests / total) * 100,
+    commits: (data.commits / total) * 100,
   };
+  const max = Math.max(...Object.values(pct), 1);
+  const R = 80, C = 130;
+  const r = (v) => 8 + (v / max) * (R - 8);
+  const pts = [
+    [C, C - r(pct.review)],
+    [C + r(pct.issues), C],
+    [C, C + r(pct.prs)],
+    [C - r(pct.commits), C],
+  ];
+  const Label = ({ x, y, v, text }) => (
+    <text x={x} y={y} textAnchor="middle" className="fill-slate-400 font-mono" fontSize="11">
+      <tspan x={x} dy="0">{Math.round(v)}%</tspan>
+      <tspan x={x} dy="14">{text}</tspan>
+    </text>
+  );
+  return (
+    <svg viewBox="0 0 260 280" className="w-full max-w-[280px] mx-auto">
+      <line x1={C} y1={C - R} x2={C} y2={C + R} stroke="currentColor" className="text-accent" />
+      <line x1={C - R} y1={C} x2={C + R} y2={C} stroke="currentColor" className="text-accent" />
+      <polygon points={pts.map((p) => p.join(',')).join(' ')}
+               className="fill-accent/30 stroke-accent" strokeWidth="1.5" />
+      {pts.map(([x, y], i) => <circle key={i} cx={x} cy={y} r="3.5" className="fill-accent" />)}
+      <Label x={C} y={14} v={pct.review} text="Code review" />
+      <Label x={C} y={C + R + 18} v={pct.prs} text="Pull requests" />
+      <Label x={28} y={C - 4} v={pct.commits} text="Commits" />
+      <Label x={232} y={C - 4} v={pct.issues} text="Issues" />
+    </svg>
+  );
 }
 
-function buildGrid() {
-  const rand = seededRand(2024);
-  const cw = [];
-  for (let w = 0; w < 52; w++) {
-    cw[w] = [];
-    for (let d = 0; d < 7; d++) {
-      const r = Math.floor(rand() * 11);
-      cw[w][d] = r <= 3 ? 0 : r <= 5 ? 1 : r <= 7 ? 2 : r <= 9 ? 3 : 4;
-    }
-  }
-  return cw;
-}
+function ContributionActivity() {
+  const [year, setYear] = useState(GH_YEARS[0]);
+  const [days, setDays] = useState([]);
+  const [total, setTotal] = useState(null);
+  const [overview, setOverview] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-const grid = buildGrid();
-const MONTHS = { May: 0, Jun: 4, Jul: 9, Aug: 13, Sep: 18, Oct: 22, Nov: 27, Dec: 31, Jan: 36, Feb: 40, Mar: 44, Apr: 48 };
+  useEffect(() => {
+    const ctrl = new AbortController();
+    setLoading(true);
+
+    fetch(`https://github-contributions-api.jogruber.de/v4/${GH_USERNAME}?y=${year}`, { signal: ctrl.signal })
+      .then((r) => r.json())
+      .then((j) => { setDays(j.contributions || []); setTotal(j.total?.[year] ?? null); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+
+    setOverview(null);
+    fetch(`/api/github-activity?year=${year}`, { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : null))
+      .then(setOverview)
+      .catch(() => {});
+
+    return () => ctrl.abort();
+  }, [year]);
+
+  const { weeks, months } = useMemo(() => buildWeeks(days), [days]);
+
+  return (
+    <div className="flex flex-col-reverse md:flex-row gap-6">
+      <div className="flex-1 min-w-0 dark:bg-dark-card bg-white border dark:border-dark-border
+                      border-slate-200 rounded-2xl overflow-hidden">
+        <div className="p-6">
+          <p className="text-lg dark:text-white text-slate-900 mb-4">
+            {total === null ? '…' : total.toLocaleString()} contributions in {year}
+          </p>
+
+          <div className="overflow-x-auto no-scrollbar">
+            <div className={`min-w-[560px] transition-opacity ${loading ? 'opacity-40' : ''}`}>
+              <div className="relative mb-2" style={{ height: 16 }}>
+                {months.map(({ label, col }) => (
+                  <span key={label + col}
+                    className="absolute font-mono text-[11px] dark:text-slate-500 text-slate-400 leading-none"
+                    style={{ left: `calc(${col} * (100% / ${weeks.length}))` }}>
+                    {label}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex gap-[3px]">
+                {weeks.map((week, w) => (
+                  <div key={w} className="flex flex-col gap-[3px] flex-1">
+                    {Array.from({ length: 7 }).map((_, d) => {
+                      const day = week[d];
+                      return day ? (
+                        <div key={d}
+                          title={`${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`}
+                          className={`w-full aspect-square rounded-[3px] cgrid-${day.level}`} />
+                      ) : (
+                        <div key={d} className="w-full aspect-square" />
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-end gap-2 mt-4">
+                <span className="font-mono text-[10px] dark:text-slate-500 text-slate-400">Less</span>
+                {[0, 1, 2, 3, 4].map((lvl) => (
+                  <div key={lvl} className={`w-3 h-3 rounded-[2px] cgrid-${lvl}`} />
+                ))}
+                <span className="font-mono text-[10px] dark:text-slate-500 text-slate-400">More</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {overview && overview.repos && (
+          <div className="border-t dark:border-dark-border border-slate-200 p-6">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h3 className="dark:text-white text-slate-900 mb-4">Activity overview</h3>
+                <p className="text-sm dark:text-slate-300 text-slate-600 leading-relaxed">
+                  Contributed to{' '}
+                  {overview.repos.slice(0, 3).map((r, i, arr) => (
+                    <span key={r.name}>
+                      <a href={r.url} target="_blank" rel="noreferrer"
+                         className="text-accent hover:underline break-all">{r.name}</a>
+                      {i < arr.length - 1 ? ', ' : ''}
+                    </span>
+                  ))}
+                  {overview.totalRepos > 3 &&
+                    ` and ${overview.totalRepos - 3} other repositor${overview.totalRepos - 3 === 1 ? 'y' : 'ies'}`}
+                </p>
+              </div>
+              <Radar data={overview} />
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="flex md:flex-col gap-2 md:w-28 shrink-0">
+        {GH_YEARS.map((y) => (
+          <button key={y} onClick={() => setYear(y)}
+            className={`px-4 py-2 rounded-lg text-sm text-left transition-colors ${
+              y === year
+                ? 'bg-accent text-dark-bg font-semibold'
+                : 'dark:text-slate-400 text-slate-500 dark:hover:bg-dark-card hover:bg-slate-100'
+            }`}>
+            {y}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const LocationLink = ({ imageSrc, company }) => {
   const [showImage, setShowImage] = useState(false);
@@ -168,41 +320,7 @@ export default function Experience() {
             Contribution Activity
           </h2>
 
-          <div className="dark:bg-dark-card bg-white
-                          border dark:border-dark-border border-slate-200
-                          rounded-2xl p-6 overflow-x-auto no-scrollbar">
-            <div className="min-w-[560px]">
-
-              <div className="relative mb-2" style={{ height: 16 }}>
-                {Object.entries(MONTHS).map(([month, col]) => (
-                  <span key={month}
-                    className="absolute font-mono text-[11px] dark:text-slate-500 text-slate-400 leading-none"
-                    style={{ left: `calc(${col} * (100% / 52))` }}>
-                    {month}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex gap-[3px]">
-                {grid.map((week, w) => (
-                  <div key={w} className="flex flex-col gap-[3px] flex-1">
-                    {week.map((level, d) => (
-                      <div key={d} className={`w-full aspect-square rounded-[3px] cgrid-${level}`} />
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex items-center justify-end gap-2 mt-4">
-                <span className="font-mono text-[10px] dark:text-slate-500 text-slate-400">Less</span>
-                {[0, 1, 2, 3, 4].map((lvl) => (
-                  <div key={lvl} className={`w-3 h-3 rounded-[2px] cgrid-${lvl}`} />
-                ))}
-                <span className="font-mono text-[10px] dark:text-slate-500 text-slate-400">More</span>
-              </div>
-
-            </div>
-          </div>
+          <ContributionActivity />
         </div>
       </section>
 

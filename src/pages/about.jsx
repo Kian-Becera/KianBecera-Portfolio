@@ -428,22 +428,30 @@ export default function About() {
 
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {[
-                  { label: 'Email',       value: config.email,    icon: 'fas fa-envelope' },
-                  { label: 'Location',    value: config.location, icon: 'fas fa-location-dot' },
-                  { label: 'GitHub',      value: '@Kian-Becera',  icon: 'fab fa-github' },
-                  { label: 'Availability', value: 'Open to Work', icon: 'fas fa-circle-check' },
+                  { label: 'Email',        value: config.email,    icon: 'fas fa-envelope' },
+                  { label: 'Location',     value: config.location, icon: 'fas fa-location-dot' },
+                  { label: 'GitHub',       value: 'https://github.com/Becera-Kian', icon: 'fab fa-github', href: 'https://github.com/Becera-Kian' },
+                  { label: 'GitHub (2)',   value: 'https://github.com/Kian-Becera', icon: 'fab fa-github', href: 'https://github.com/Kian-Becera' },
+                  { label: 'Availability', value: 'Open to Work',   icon: 'fas fa-circle-check' },
                 ].map((info) => (
                   <div key={info.label}
                     className="dark:bg-dark-card bg-slate-50
-                               border dark:border-dark-border border-slate-200
-                               rounded-xl p-4">
+                              border dark:border-dark-border border-slate-200
+                              rounded-xl p-4">
                     <p className="text-xs dark:text-dark-muted text-slate-400 mb-1 flex items-center gap-1.5">
                       <i className={`${info.icon} text-accent text-[10px]`} />
                       {info.label}
                     </p>
-                    <p className="text-sm dark:text-white text-slate-800 font-medium truncate">
-                      {info.value}
-                    </p>
+                    {info.href ? (
+                      <a href={info.href} target="_blank" rel="noreferrer"
+                        className="text-sm dark:text-white text-slate-800 font-medium truncate block">
+                        {info.value}
+                      </a>
+                    ) : (
+                      <p className="text-sm dark:text-white text-slate-800 font-medium truncate">
+                        {info.value}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
