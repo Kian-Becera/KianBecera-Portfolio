@@ -5,8 +5,9 @@ import Layout from '../components/Layout';
 import { experience, techStack } from '../data/portfolio';
 
 /* ───────── Contribution activity (live GitHub data) ───────── */
-const GH_USERNAME = 'Becera-Kian';         
-const GH_YEARS = [2026, 2025, 2024, 2023]; 
+
+const GH_USERNAME = 'Becera-Kian';
+const GH_YEARS = [2026, 2025, 2024, 2023];  // years shown in the selector
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 function buildWeeks(days) {
@@ -50,7 +51,9 @@ function Radar({ data }) {
     </text>
   );
   return (
-    <svg viewBox="0 0 260 280" className="w-full max-w-[280px] mx-auto">
+    <svg viewBox="0 0 260 280" width="260" height="280"
+         style={{ width: '100%', maxWidth: 280, height: 'auto', display: 'block' }}
+         className="mx-auto overflow-visible">
       <line x1={C} y1={C - R} x2={C} y2={C + R} stroke="currentColor" className="text-accent" />
       <line x1={C - R} y1={C} x2={C + R} y2={C} stroke="currentColor" className="text-accent" />
       <polygon points={pts.map((p) => p.join(',')).join(' ')}
@@ -70,15 +73,28 @@ function ContributionActivity() {
   const [total, setTotal] = useState(null);
   const [overview, setOverview] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const scrollRef = useRef(null);
+  const [scroll, setScroll] = useState({ left: false, right: false });
+
+  const updateScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setScroll({
+      left: el.scrollLeft > 4,
+      right: el.scrollLeft + el.clientWidth < el.scrollWidth - 4,
+    });
+  };
 
   useEffect(() => {
     const ctrl = new AbortController();
     setLoading(true);
+    setError(false);
 
     fetch(`https://github-contributions-api.jogruber.de/v4/${GH_USERNAME}?y=${year}`, { signal: ctrl.signal })
-      .then((r) => r.json())
+      .then((r) => { if (!r.ok) throw new Error('not ok'); return r.json(); })
       .then((j) => { setDays(j.contributions || []); setTotal(j.total?.[year] ?? null); })
-      .catch(() => {})
+      .catch((e) => { if (e.name !== 'AbortError') { setDays([]); setTotal(null); setError(true); } })
       .finally(() => setLoading(false));
 
     setOverview(null);
@@ -92,16 +108,29 @@ function ContributionActivity() {
 
   const { weeks, months } = useMemo(() => buildWeeks(days), [days]);
 
+  useEffect(() => {
+    updateScroll();
+    window.addEventListener('resize', updateScroll);
+    return () => window.removeEventListener('resize', updateScroll);
+  }, [weeks.length]);
+
   return (
     <div className="flex flex-col-reverse md:flex-row gap-6">
-      <div className="flex-1 min-w-0 dark:bg-dark-card bg-white border dark:border-dark-border
+      <div className="w-full md:flex-1 min-w-0 dark:bg-dark-card bg-white border dark:border-dark-border
                       border-slate-200 rounded-2xl overflow-hidden">
         <div className="p-6">
           <p className="text-lg dark:text-white text-slate-900 mb-4">
             {total === null ? '…' : total.toLocaleString()} contributions in {year}
           </p>
 
-          <div className="overflow-x-auto no-scrollbar">
+          {error && (
+            <p className="text-sm text-red-400 mb-3">
+              Couldn&apos;t load contributions for &quot;{GH_USERNAME}&quot;. Check the GitHub username.
+            </p>
+          )}
+
+          <div className="relative">
+          <div ref={scrollRef} onScroll={updateScroll} className="overflow-x-auto no-scrollbar">
             <div className={`min-w-[560px] transition-opacity ${loading ? 'opacity-40' : ''}`}>
               <div className="relative mb-2" style={{ height: 16 }}>
                 {months.map(({ label, col }) => (
@@ -121,7 +150,7 @@ function ContributionActivity() {
                       return day ? (
                         <div key={d}
                           title={`${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`}
-                          className={`w-full aspect-square rounded-[3px] cgrid-${day.level}`} />
+                          className={`w-full aspect-square rounded-[3px] ring-1 ring-inset dark:ring-white/5 ring-black/5 cgrid-${day.level}`} />
                       ) : (
                         <div key={d} className="w-full aspect-square" />
                       );
@@ -139,11 +168,24 @@ function ContributionActivity() {
               </div>
             </div>
           </div>
+          {/* edge fades = "there is more this way" */}
+          <div className={`pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r dark:from-dark-card from-white to-transparent transition-opacity md:hidden ${scroll.left ? 'opacity-100' : 'opacity-0'}`} />
+          <div className={`pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l dark:from-dark-card from-white to-transparent transition-opacity md:hidden ${scroll.right ? 'opacity-100' : 'opacity-0'}`} />
+          </div>
+
+          {/* swipe hint (mobile only) */}
+          {(scroll.left || scroll.right) && (
+            <p className="md:hidden mt-3 flex items-center justify-center gap-2 font-mono text-[11px] dark:text-slate-500 text-slate-400">
+              {scroll.left && <span>←</span>}
+              <span>{scroll.right ? 'Swipe to see more months' : 'Swipe back to see earlier months'}</span>
+              {scroll.right && <span className="animate-pulse">→</span>}
+            </p>
+          )}
         </div>
 
         {overview && overview.repos && (
           <div className="border-t dark:border-dark-border border-slate-200 p-6">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div>
                 <h3 className="dark:text-white text-slate-900 mb-4">Activity overview</h3>
                 <p className="text-sm dark:text-slate-300 text-slate-600 leading-relaxed">
@@ -159,7 +201,9 @@ function ContributionActivity() {
                     ` and ${overview.totalRepos - 3} other repositor${overview.totalRepos - 3 === 1 ? 'y' : 'ies'}`}
                 </p>
               </div>
-              <Radar data={overview} />
+              <div className="w-full flex justify-center min-w-0">
+                <Radar data={overview} />
+              </div>
             </div>
           </div>
         )}
