@@ -150,6 +150,11 @@ export default function Home() {
                 <p>
                   <span className="text-emerald-400">+</span>
                   <span className="dark:text-slate-400 text-slate-500">feat(ui):</span>
+                  <span className="dark:text-white text-slate-200">Updating WP Sites due to PHP2shell vulnerability</span>
+                </p>
+                <p>
+                  <span className="text-emerald-400">+</span>
+                  <span className="dark:text-slate-400 text-slate-500">feat(ui):</span>
                   <span className="dark:text-white text-slate-200"> gallery, footer &amp; specials page — pixel-perfect layouts delivered</span>
                 </p>
                 <p>
